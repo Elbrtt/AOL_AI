@@ -1,0 +1,201 @@
+date,event_type,menu_item,qty_prepared,qty_sold,temperature,customers_prediction,is_holiday,waste
+2024-03-01,holiday,Nasi Goreng,183,261,29,601,0,0
+2024-03-02,mudik_event,Mie Goreng,325,78,33,495,0,247
+2024-03-03,weekday,Rendang,255,98,34,1039,1,157
+2024-03-04,holiday,Mie Goreng,118,185,27,494,0,0
+2024-03-05,holiday,Rendang,249,232,33,815,0,17
+2024-03-06,mudik_event,Rendang,326,200,31,725,1,126
+2024-03-07,weekday,Sate Ayam,105,301,30,999,0,0
+2024-03-08,weekday,Rendang,92,279,28,890,0,0
+2024-03-09,holiday,Mie Goreng,115,185,33,836,0,0
+2024-03-10,weekend,Rendang,252,117,27,621,0,135
+2024-03-11,holiday,Sate Ayam,99,207,27,1064,0,0
+2024-03-12,holiday,Sate Ayam,343,60,33,222,0,283
+2024-03-13,holiday,Mie Goreng,221,249,32,774,1,0
+2024-03-14,holiday,Ayam Bakar,222,250,28,342,0,0
+2024-03-15,mudik_event,Ayam Bakar,171,176,32,1192,0,0
+2024-03-16,weekday,Rendang,294,193,30,864,0,101
+2024-03-17,mudik_event,Nasi Goreng,130,117,27,344,0,13
+2024-03-18,mudik_event,Rendang,232,103,27,424,1,129
+2024-03-19,mudik_event,Mie Goreng,265,232,31,702,0,33
+2024-03-20,holiday,Mie Goreng,142,219,30,1161,0,0
+2024-03-21,weekend,Mie Goreng,269,232,27,1173,1,37
+2024-03-22,weekday,Mie Goreng,204,208,30,1020,0,0
+2024-03-23,weekend,Mie Goreng,229,139,28,815,0,90
+2024-03-24,mudik_event,Sate Ayam,137,272,29,303,0,0
+2024-03-25,mudik_event,Ayam Bakar,259,262,27,1146,0,0
+2024-03-26,weekend,Mie Goreng,249,311,31,238,1,0
+2024-03-27,weekend,Nasi Goreng,133,288,28,1146,0,0
+2024-03-28,weekend,Nasi Goreng,180,223,33,397,0,0
+2024-03-29,mudik_event,Nasi Goreng,343,286,30,845,0,57
+2024-03-30,mudik_event,Nasi Goreng,132,206,33,778,1,0
+2024-03-31,weekday,Sate Ayam,139,79,32,590,0,60
+2024-04-01,weekday,Nasi Goreng,187,106,28,378,1,81
+2024-04-02,mudik_event,Mie Goreng,84,292,33,1167,0,0
+2024-04-03,weekend,Rendang,182,73,34,753,1,109
+2024-04-04,weekend,Nasi Goreng,275,202,34,647,1,73
+2024-04-05,weekday,Sate Ayam,341,60,27,699,1,281
+2024-04-06,mudik_event,Sate Ayam,126,113,30,214,1,13
+2024-04-07,weekday,Nasi Goreng,223,318,29,822,0,0
+2024-04-08,weekday,Rendang,348,203,28,868,0,145
+2024-04-09,holiday,Nasi Goreng,203,71,27,488,0,132
+2024-04-10,holiday,Sate Ayam,185,283,31,677,0,0
+2024-04-11,holiday,Ayam Bakar,237,215,32,430,0,22
+2024-04-12,weekend,Mie Goreng,226,67,30,1122,0,159
+2024-04-13,mudik_event,Sate Ayam,224,181,28,619,0,43
+2024-04-14,mudik_event,Nasi Goreng,199,223,34,356,0,0
+2024-04-15,mudik_event,Mie Goreng,171,149,28,749,1,22
+2024-04-16,mudik_event,Nasi Goreng,137,195,29,640,0,0
+2024-04-17,holiday,Nasi Goreng,308,245,34,296,1,63
+2024-04-18,weekend,Ayam Bakar,196,237,29,1196,1,0
+2024-04-19,weekend,Mie Goreng,206,87,31,610,1,119
+2024-04-20,holiday,Mie Goreng,208,279,32,1150,0,0
+2024-04-21,weekend,Ayam Bakar,137,100,31,488,1,37
+2024-04-22,holiday,Sate Ayam,201,287,27,453,1,0
+2024-04-23,mudik_event,Nasi Goreng,80,251,27,395,1,0
+2024-04-24,holiday,Rendang,318,204,31,797,0,114
+2024-04-25,mudik_event,Nasi Goreng,175,260,32,1033,0,0
+2024-04-26,mudik_event,Nasi Goreng,205,271,31,721,0,0
+2024-04-27,weekday,Sate Ayam,197,279,32,716,0,0
+2024-04-28,holiday,Nasi Goreng,127,299,32,834,0,0
+2024-04-29,weekday,Ayam Bakar,168,105,33,1041,1,63
+2024-04-30,holiday,Ayam Bakar,316,94,34,1064,1,222
+2024-05-01,holiday,Mie Goreng,268,312,30,317,0,0
+2024-05-02,weekday,Rendang,271,141,32,1005,1,130
+2024-05-03,weekday,Nasi Goreng,148,315,29,1108,0,0
+2024-05-04,holiday,Nasi Goreng,326,256,32,358,1,70
+2024-05-05,weekend,Sate Ayam,155,69,32,1014,1,86
+2024-05-06,mudik_event,Ayam Bakar,233,301,32,427,0,0
+2024-05-07,weekday,Rendang,223,310,33,1076,0,0
+2024-05-08,mudik_event,Mie Goreng,165,64,34,415,1,101
+2024-05-09,weekend,Ayam Bakar,264,178,33,1147,0,86
+2024-05-10,weekend,Mie Goreng,299,124,27,895,0,175
+2024-05-11,weekend,Sate Ayam,148,205,33,214,1,0
+2024-05-12,weekday,Sate Ayam,126,283,29,356,0,0
+2024-05-13,weekend,Nasi Goreng,173,298,29,847,1,0
+2024-05-14,weekday,Rendang,317,236,33,460,0,81
+2024-05-15,weekend,Mie Goreng,283,122,34,356,1,161
+2024-05-16,mudik_event,Ayam Bakar,297,276,31,246,0,21
+2024-05-17,mudik_event,Sate Ayam,118,236,30,523,1,0
+2024-05-18,holiday,Nasi Goreng,179,157,34,1043,1,22
+2024-05-19,mudik_event,Nasi Goreng,333,164,33,884,0,169
+2024-05-20,holiday,Mie Goreng,301,158,32,329,0,143
+2024-05-21,mudik_event,Sate Ayam,102,65,28,610,1,37
+2024-05-22,weekday,Rendang,329,256,30,294,0,73
+2024-05-23,mudik_event,Sate Ayam,89,192,30,826,0,0
+2024-05-24,holiday,Mie Goreng,325,318,29,954,0,7
+2024-05-25,holiday,Mie Goreng,179,82,30,1131,0,97
+2024-05-26,weekend,Sate Ayam,259,112,33,491,1,147
+2024-05-27,weekday,Mie Goreng,302,224,32,993,0,78
+2024-05-28,mudik_event,Sate Ayam,329,261,32,1010,0,68
+2024-05-29,weekend,Ayam Bakar,226,142,27,482,0,84
+2024-05-30,mudik_event,Sate Ayam,175,204,32,268,0,0
+2024-05-31,mudik_event,Sate Ayam,336,144,34,859,0,192
+2024-06-01,weekend,Mie Goreng,83,137,32,210,0,0
+2024-06-02,weekend,Mie Goreng,95,60,29,453,1,35
+2024-06-03,weekend,Nasi Goreng,326,110,32,1041,0,216
+2024-06-04,weekend,Nasi Goreng,337,232,27,1071,0,105
+2024-06-05,weekend,Ayam Bakar,239,264,28,749,1,0
+2024-06-06,mudik_event,Nasi Goreng,231,319,33,333,0,0
+2024-06-07,weekend,Sate Ayam,257,93,29,911,1,164
+2024-06-08,weekday,Mie Goreng,242,154,34,222,0,88
+2024-06-09,holiday,Nasi Goreng,112,131,28,1014,0,0
+2024-06-10,weekend,Nasi Goreng,258,98,29,545,0,160
+2024-06-11,weekend,Ayam Bakar,180,213,31,501,0,0
+2024-06-12,mudik_event,Ayam Bakar,347,309,30,562,1,38
+2024-06-13,weekend,Sate Ayam,144,221,31,595,0,0
+2024-06-14,weekend,Mie Goreng,247,177,32,417,0,70
+2024-06-15,weekend,Ayam Bakar,122,318,28,340,0,0
+2024-06-16,mudik_event,Nasi Goreng,123,113,32,815,0,10
+2024-06-17,weekend,Mie Goreng,91,295,30,1157,1,0
+2024-06-18,holiday,Mie Goreng,174,281,29,409,0,0
+2024-06-19,mudik_event,Nasi Goreng,332,310,30,1184,0,22
+2024-06-20,holiday,Ayam Bakar,321,171,27,1192,0,150
+2024-06-21,mudik_event,Nasi Goreng,114,314,30,822,0,0
+2024-06-22,weekend,Mie Goreng,294,266,27,815,1,28
+2024-06-23,holiday,Rendang,169,288,30,1027,0,0
+2024-06-24,mudik_event,Rendang,343,125,33,882,1,218
+2024-06-25,weekday,Sate Ayam,172,134,27,659,0,38
+2024-06-26,weekend,Nasi Goreng,169,162,28,555,0,7
+2024-06-27,mudik_event,Nasi Goreng,194,251,32,523,1,0
+2024-06-28,weekday,Sate Ayam,184,311,34,332,0,0
+2024-06-29,mudik_event,Sate Ayam,275,285,32,1087,0,0
+2024-06-30,weekday,Sate Ayam,193,157,31,1004,1,36
+2024-07-01,weekend,Mie Goreng,154,308,32,1039,0,0
+2024-07-02,holiday,Nasi Goreng,296,225,29,326,1,71
+2024-07-03,weekday,Mie Goreng,328,89,33,305,0,239
+2024-07-04,mudik_event,Sate Ayam,243,306,30,803,1,0
+2024-07-05,weekend,Nasi Goreng,271,165,31,998,1,106
+2024-07-06,weekday,Mie Goreng,306,110,29,577,0,196
+2024-07-07,mudik_event,Mie Goreng,256,140,29,1104,1,116
+2024-07-08,mudik_event,Sate Ayam,178,192,27,250,0,0
+2024-07-09,mudik_event,Nasi Goreng,115,197,32,228,1,0
+2024-07-10,weekday,Sate Ayam,175,243,28,661,0,0
+2024-07-11,weekday,Nasi Goreng,231,128,34,495,0,103
+2024-07-12,weekday,Rendang,230,93,28,496,0,137
+2024-07-13,holiday,Ayam Bakar,269,112,31,925,0,157
+2024-07-14,weekday,Ayam Bakar,303,264,33,978,0,39
+2024-07-15,weekday,Ayam Bakar,116,185,28,606,1,0
+2024-07-16,weekday,Sate Ayam,347,294,30,968,1,53
+2024-07-17,holiday,Rendang,262,102,28,1013,1,160
+2024-07-18,weekday,Nasi Goreng,92,299,31,812,0,0
+2024-07-19,mudik_event,Mie Goreng,296,170,34,604,0,126
+2024-07-20,weekday,Nasi Goreng,141,308,28,545,0,0
+2024-07-21,mudik_event,Mie Goreng,163,210,30,821,0,0
+2024-07-22,mudik_event,Nasi Goreng,296,242,27,619,0,54
+2024-07-23,mudik_event,Rendang,266,154,33,381,0,112
+2024-07-24,holiday,Mie Goreng,98,67,31,1182,1,31
+2024-07-25,holiday,Sate Ayam,256,243,27,1024,0,13
+2024-07-26,holiday,Nasi Goreng,179,254,27,200,0,0
+2024-07-27,weekday,Nasi Goreng,312,254,27,1030,0,58
+2024-07-28,mudik_event,Mie Goreng,155,214,29,1149,0,0
+2024-07-29,holiday,Sate Ayam,344,152,33,766,0,192
+2024-07-30,holiday,Sate Ayam,285,219,34,570,1,66
+2024-07-31,weekday,Rendang,302,120,32,1135,0,182
+2024-08-01,holiday,Sate Ayam,131,181,33,1110,0,0
+2024-08-02,weekday,Sate Ayam,223,110,29,860,0,113
+2024-08-03,weekend,Sate Ayam,148,64,32,630,1,84
+2024-08-04,holiday,Ayam Bakar,178,151,33,1168,1,27
+2024-08-05,weekend,Rendang,104,229,27,508,1,0
+2024-08-06,weekday,Nasi Goreng,132,81,31,336,0,51
+2024-08-07,mudik_event,Mie Goreng,230,60,32,401,0,170
+2024-08-08,holiday,Nasi Goreng,223,192,30,635,0,31
+2024-08-09,weekday,Rendang,136,292,30,512,1,0
+2024-08-10,mudik_event,Mie Goreng,118,71,28,316,1,47
+2024-08-11,mudik_event,Rendang,188,105,32,865,0,83
+2024-08-12,weekend,Sate Ayam,260,93,31,1136,1,167
+2024-08-13,weekday,Mie Goreng,121,137,34,1002,1,0
+2024-08-14,mudik_event,Sate Ayam,265,277,29,774,0,0
+2024-08-15,holiday,Nasi Goreng,302,132,27,443,1,170
+2024-08-16,holiday,Nasi Goreng,201,308,28,736,1,0
+2024-08-17,weekend,Mie Goreng,212,106,30,801,0,106
+2024-08-18,mudik_event,Mie Goreng,242,180,29,274,0,62
+2024-08-19,weekday,Rendang,294,273,29,1005,0,21
+2024-08-20,holiday,Rendang,300,298,27,585,0,2
+2024-08-21,mudik_event,Sate Ayam,314,115,34,1102,0,199
+2024-08-22,mudik_event,Mie Goreng,225,166,34,409,0,59
+2024-08-23,weekend,Nasi Goreng,318,107,32,674,1,211
+2024-08-24,holiday,Rendang,155,120,30,617,0,35
+2024-08-25,holiday,Rendang,88,85,34,546,0,3
+2024-08-26,weekday,Nasi Goreng,153,316,31,728,0,0
+2024-08-27,holiday,Rendang,332,67,34,839,0,265
+2024-08-28,weekday,Sate Ayam,309,172,29,1138,1,137
+2024-08-29,holiday,Mie Goreng,86,312,27,1154,0,0
+2024-08-30,weekend,Nasi Goreng,253,239,31,1075,0,14
+2024-08-31,holiday,Mie Goreng,220,266,32,962,0,0
+2024-09-01,weekday,Rendang,247,186,30,378,1,61
+2024-09-02,weekday,Rendang,249,115,32,381,1,134
+2024-09-03,weekend,Nasi Goreng,201,273,29,863,0,0
+2024-09-04,holiday,Sate Ayam,273,73,31,224,0,200
+2024-09-05,holiday,Ayam Bakar,84,87,31,1166,0,0
+2024-09-06,weekend,Nasi Goreng,108,137,31,379,0,0
+2024-09-07,holiday,Ayam Bakar,244,275,29,909,0,0
+2024-09-08,holiday,Ayam Bakar,215,213,29,700,0,2
+2024-09-09,weekday,Sate Ayam,224,73,32,1055,0,151
+2024-09-10,holiday,Ayam Bakar,296,246,28,360,0,50
+2024-09-11,holiday,Ayam Bakar,211,66,32,376,1,145
+2024-09-12,weekend,Sate Ayam,149,62,30,484,0,87
+2024-09-13,weekend,Ayam Bakar,331,170,27,262,0,161
+2024-09-14,mudik_event,Ayam Bakar,261,297,31,861,0,0
+2024-09-15,weekday,Ayam Bakar,246,298,28,865,0,0
+2024-09-16,holiday,Nasi Goreng,170,286,27,355,1,0

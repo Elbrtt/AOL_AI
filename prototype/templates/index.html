@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Food Waste - Retail Indonesia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2d6a4f;
+            --secondary-color: #40916c;
+            --accent-color: #74c69d;
+            --bg-light: #f8faf9;
+            --text-dark: #1b4332;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e8f5e9 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        .navbar {
+            background: var(--primary-color) !important;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .upload-zone {
+            border: 3px dashed var(--accent-color);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            background: rgba(116, 198, 157, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background: rgba(45, 106, 79, 0.1);
+        }
+        
+        .upload-zone i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .result-card {
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .risk-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        
+        .risk-RENDAH { background: #d4edda; color: #155724; }
+        .risk-SEDANG { background: #fff3cd; color: #856404; }
+        .risk-TINGGI { background: #f8d7da; color: #721c24; }
+        .risk-KRITIS { background: #721c24; color: white; }
+        
+        .priority-TINGGI, .priority-KRITIS { color: #dc3545; }
+        .priority-SEDANG { color: #ffc107; }
+        .priority-RENDAH { color: #28a745; }
+        
+        .summary-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+        
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .instruction-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .column-table {
+            font-size: 0.875rem;
+        }
+        
+        .column-table th {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        #loading {
+            display: none;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(45, 106, 79, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .rekomendasi-item {
+            border-left: 4px solid;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .rekomendasi-TINGGI, .rekomendasi-KRITIS { border-color: #dc3545; }
+        .rekomendasi-SEDANG { border-color: #ffc107; }
+        .rekomendasi-RENDAH { border-color: #28a745; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">
+                <i class="bi bi-graph-up-arrow me-2"></i>
+                Food Waste Predictor
+            </span>
+            <span class="text-white-50">Sistem Prediksi untuk Retail Indonesia</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">Prediksi Food Waste & Rekomendasi Stok</h1>
+            <p class="lead mb-0">
+                Optimalkan pembelian stok toko retail Anda dengan prediksi berbasis AI.<br>
+                Kurangi kerugian akibat produk kadaluarsa, terutama saat event besar seperti Mudik Lebaran.
+            </p>
+        </div>
+    </section>
+
+    <div class="container pb-5">
+        {% if not model_loaded %}
+        <!-- Warning if model not loaded -->
+        <div class="alert alert-warning d-flex align-items-center mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+            <div>
+                <strong>Model belum tersedia!</strong> Jalankan script berikut terlebih dahulu:
+                <code class="ms-2">python generate_sample_data.py</code> kemudian
+                <code class="ms-2">python train_model.py</code>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row g-4">
+            <!-- Upload Section -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="mb-0"><i class="bi bi-cloud-upload me-2"></i>Upload Data CSV</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="upload-zone" id="uploadZone">
+                            <i class="bi bi-file-earmark-spreadsheet mb-3"></i>
+                            <h5>Drag & Drop file CSV di sini</h5>
+                            <p class="text-muted mb-3">atau klik untuk memilih file</p>
+                            <input type="file" id="fileInput" accept=".csv" class="d-none">
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                <i class="bi bi-folder2-open me-2"></i>Pilih File
+                            </button>
+                        </div>
+                        <div id="fileInfo" class="mt-3 d-none">
+                            <div class="alert alert-info d-flex align-items-center">
+                                <i class="bi bi-file-earmark-check me-2"></i>
+                                <span id="fileName"></span>
+                                <button class="btn btn-sm btn-outline-danger ms-auto" onclick="clearFile()">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="uploadFile()" {% if not model_loaded %}disabled{% endif %}>
+                                <i class="bi bi-cpu me-2"></i>Proses Prediksi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions Section -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Panduan Format CSV</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="instruction-box mb-3">
+                            <p class="mb-2"><strong>File CSV harus memiliki kolom-kolom berikut:</strong></p>
+                            <div class="table-responsive">
+                                <table class="table table-sm column-table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Kolom</th>
+                                            <th>Tipe</th>
+                                            <th>Contoh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>product_category</td><td>Text</td><td>Dairy, Bakery, Meat</td></tr>
+                                        <tr><td>event_type</td><td>Text</td><td>Mudik_Lebaran, Normal</td></tr>
+                                        <tr><td>store_location</td><td>Text</td><td>Urban_Center, Suburban</td></tr>
+                                        <tr><td>storage_condition</td><td>Text</td><td>Refrigerated, Frozen</td></tr>
+                                        <tr><td>shelf_life_days</td><td>Number</td><td>7</td></tr>
+                                        <tr><td>days_before_expiry</td><td>Number</td><td>5</td></tr>
+                                        <tr><td>initial_stock</td><td>Number</td><td>500</td></tr>
+                                        <tr><td>expected_daily_sales</td><td>Number</td><td>80</td></tr>
+                                        <tr><td>price_per_unit</td><td>Number</td><td>15000</td></tr>
+                                        <tr><td>supplier_reliability</td><td>Decimal</td><td>0.85</td></tr>
+                                        <tr><td>temperature_deviation</td><td>Decimal</td><td>1.5</td></tr>
+                                        <tr><td>historical_waste_rate</td><td>Decimal</td><td>0.12</td></tr>
+                                        <tr><td>promotion_active</td><td>0 atau 1</td><td>0</td></tr>
+                                        <tr><td>day_of_week</td><td>1-7</td><td>5</td></tr>
+                                        <tr><td>month</td><td>1-12</td><td>4</td></tr>
+                                        <tr><td>weather_score</td><td>1-5</td><td>3</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary w-100" onclick="showTemplateModal()">
+                            <i class="bi bi-download me-2"></i>Lihat Detail Format
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-3 text-muted">Memproses prediksi...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-4 d-none">
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-4" id="summaryCards"></div>
+            
+            <!-- Detail Results -->
+            <div class="card">
+                <div class="card-header bg-white border-0 pt-4">
+                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Detail Hasil Prediksi</h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="resultsAccordion"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Section -->
+        <div id="errorSection" class="mt-4 d-none">
+            <div class="alert alert-danger d-flex align-items-center">
+                <i class="bi bi-exclamation-octagon-fill me-3 fs-4"></i>
+                <div id="errorMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Modal -->
+    <div class="modal fade" id="templateModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Format Kolom CSV</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="templateContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        let selectedFile = null;
+
+        // Drag and drop handlers
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].name.endsWith('.csv')) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileInfo').classList.remove('d-none');
+        }
+
+        function clearFile() {
+            selectedFile = null;
+            fileInput.value = '';
+            document.getElementById('fileInfo').classList.add('d-none');
+            document.getElementById('results').classList.add('d-none');
+            document.getElementById('errorSection').classList.add('d-none');
+        }
+
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        async function uploadFile() {
+            if (!selectedFile) return;
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').classList.add('d-none');
+            document.getElementById('errorSection').classList.add('d-none');
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    showResults(data);
+                }
+            } catch (error) {
+                showError('Terjadi kesalahan saat memproses file: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorSection').classList.remove('d-none');
+        }
+
+        function showResults(data) {
+            // Summary Cards
+            const summary = data.ringkasan;
+            const summaryHTML = `
+                <div class="col-md-3">
+                    <div class="card summary-card h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-file-earmark-text fs-2 mb-2"></i>
+                            <div class="summary-value">${data.total_data}</div>
+                            <div>Total Produk Dianalisis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-percent fs-2 mb-2 text-warning"></i>
+                            <div class="summary-value text-warning">${summary.rata_rata_waste}%</div>
+                            <div>Rata-rata Waste</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-exclamation-triangle fs-2 mb-2 text-danger"></i>
+                            <div class="summary-value text-danger">${formatRupiah(summary.total_prediksi_kerugian)}</div>
+                            <div>Prediksi Kerugian</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="bi bi-piggy-bank fs-2 mb-2 text-success"></i>
+                            <div class="summary-value text-success">${formatRupiah(summary.total_potensi_penghematan)}</div>
+                            <div>Potensi Penghematan</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('summaryCards').innerHTML = summaryHTML;
+
+            // Detail Results
+            let accordionHTML = '';
+            data.hasil_prediksi.forEach((item, index) => {
+                const risk = item.level_risiko;
+                const stok = item.rekomendasi_stok;
+                
+                let rekomendasiHTML = '';
+                item.rekomendasi_aksi.forEach(rek => {
+                    rekomendasiHTML += `
+                        <div class="rekomendasi-item rekomendasi-${rek.prioritas}">
+                            <strong class="priority-${rek.prioritas}">[${rek.prioritas}] ${rek.kategori}</strong>
+                            <p class="mb-1">${rek.pesan}</p>
+                            <small class="text-muted"><i class="bi bi-arrow-right me-1"></i>${rek.aksi}</small>
+                        </div>
+                    `;
+                });
+
+                accordionHTML += `
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button ${index > 0 ? 'collapsed' : ''}" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#result${index}">
+                                <div class="d-flex align-items-center w-100 me-3">
+                                    <span class="badge risk-${risk.level} me-3">${risk.level}</span>
+                                    <strong class="me-3">#${item.nomor} ${item.produk}</strong>
+                                    <span class="text-muted me-3">${item.event}</span>
+                                    <span class="ms-auto fw-bold text-danger">${item.prediksi_waste_persen}% waste</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="result${index}" class="accordion-collapse collapse ${index === 0 ? 'show' : ''}">
+                            <div class="accordion-body">
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <div class="card result-card h-100">
+                                            <div class="card-body">
+                                                <h6 class="text-muted mb-3"><i class="bi bi-graph-down me-2"></i>Prediksi Waste</h6>
+                                                <p class="mb-2"><strong>Persentase:</strong> ${item.prediksi_waste_persen}%</p>
+                                                <p class="mb-2"><strong>Unit Terbuang:</strong> ${item.prediksi_waste_unit} unit</p>
+                                                <p class="mb-0"><strong>Kerugian:</strong> <span class="text-danger">${formatRupiah(item.prediksi_kerugian)}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card result-card h-100">
+                                            <div class="card-body">
+                                                <h6 class="text-muted mb-3"><i class="bi bi-box-seam me-2"></i>Rekomendasi Stok</h6>
+                                                <p class="mb-2"><strong>Stok Saat Ini:</strong> ${stok.stok_saat_ini} unit</p>
+                                                <p class="mb-2"><strong>Stok Disarankan:</strong> <span class="text-primary fw-bold">${stok.stok_disarankan} unit</span></p>
+                                                <p class="mb-2"><strong>Aksi:</strong> ${stok.aksi} ${Math.abs(stok.selisih)} unit</p>
+                                                <p class="mb-0"><strong>Potensi Hemat:</strong> <span class="text-success">${formatRupiah(stok.potensi_penghematan)}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card result-card h-100">
+                                            <div class="card-body">
+                                                <h6 class="text-muted mb-3"><i class="bi bi-lightbulb me-2"></i>Rekomendasi Aksi</h6>
+                                                ${rekomendasiHTML || '<p class="text-muted">Tidak ada rekomendasi khusus</p>'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('resultsAccordion').innerHTML = accordionHTML;
+            document.getElementById('results').classList.remove('d-none');
+        }
+
+        async function showTemplateModal() {
+            try {
+                const response = await fetch('/template');
+                const data = await response.json();
+                
+                let tableHTML = `
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nama Kolom</th>
+                                    <th>Tipe Data</th>
+                                    <th>Contoh</th>
+                                    <th>Pilihan/Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                data.kolom_wajib.forEach(col => {
+                    tableHTML += `
+                        <tr>
+                            <td><code>${col.nama}</code></td>
+                            <td>${col.tipe}</td>
+                            <td>${col.contoh}</td>
+                            <td><small>${col.pilihan}</small></td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += '</tbody></table></div>';
+                
+                document.getElementById('templateContent').innerHTML = tableHTML;
+                new bootstrap.Modal(document.getElementById('templateModal')).show();
+            } catch (error) {
+                alert('Gagal memuat template: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

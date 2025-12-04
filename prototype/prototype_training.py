@@ -25,7 +25,7 @@ def load_and_preprocess_data(csv_path):
     """Load CSV dan preprocess data untuk training"""
     
     print("[INFO] Loading dataset...")
-    df = pd.read_csv('food_waste_dataset.csv')
+    df = pd.read_csv('data/food_waste_dataset.csv')
     print(f"[INFO] Loaded {len(df)} records")
     
     # Categorical columns to encode

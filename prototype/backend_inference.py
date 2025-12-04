@@ -11,7 +11,7 @@ from tensorflow import keras
 class FoodWastePredictionService:
     """Service class untuk prediksi food waste"""
     
-    def __init__(self, model_path='food_waste_model.keras', artifacts_path='model_artifacts.pkl'):
+    def __init__(self, model_path='prototype/proto_model/food_waste_model.keras', artifacts_path='prototype/proto_model/model_artifacts.pkl'):
         """Initialize service dengan load model dan artifacts"""
         
         print("[INFO] Loading model and artifacts...")

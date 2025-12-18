@@ -158,7 +158,7 @@ class FoodWastePredictionService:
     
     def calculate_optimal_stock(self, input_data, waste_pct):
         """Hitung stok optimal untuk minimisasi waste"""
-        expected_total_sales = input_data['expected_daily_sales'] * input_data['days_before_expiry']
+        expected_total_sales = input_data['expected_daily_sales'] * min(input_data['days_before_expiry'],14)
         
         event_safety_factors = {
             'Normal': 1.15,

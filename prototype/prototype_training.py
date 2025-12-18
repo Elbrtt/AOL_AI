@@ -196,11 +196,10 @@ def train_model(X, y, epochs=250, batch_size=32):
     # print(f"MAPE: {mape:.2f}%")
     
     # Accuracy within tolerance
-    tolerance = 0.05 # 5% tolerance
-    accurate_preds = np.sum(np.abs(y_test - y_pred) <= tolerance)
-    accuracy = accurate_preds / len(y_test) * 100
-    print(f"Accuracy (within {tolerance*100}% tolerance): {accuracy:.2f}%")
-    model.evaluate(X_test,y_test)
+    # tolerance = 0.05 # 5% tolerance
+    # accurate_preds = np.sum(np.abs(y_test - y_pred) <= tolerance)
+    # accuracy = accurate_preds / len(y_test) * 100
+    # print(f"Accuracy (within {tolerance*100}% tolerance): {accuracy:.2f}%")
     
     return model, history, (X_test, y_test)
 

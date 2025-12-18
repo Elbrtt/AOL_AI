@@ -8,7 +8,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import random
 
-def generate_food_waste_data(n_samples=500):
+def generate_food_waste_data(n_samples=1000):
     """Generate realistic food waste data for retail stores"""
     
     np.random.seed(42)
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     df = generate_food_waste_data(500)
     
     # Save to CSV
-    csv_path = "food_waste_dataset.csv"
+    csv_path = "food_waste_dataset2.csv"
     df.to_csv(csv_path, index=False)
     print(f"\n[SUCCESS] Dataset saved to: {csv_path}")
     print(f"Total records: {len(df)}")

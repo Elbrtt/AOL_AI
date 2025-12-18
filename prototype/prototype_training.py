@@ -1,6 +1,5 @@
 """
 Script untuk training model Keras food waste prediction
-Jalankan setelah generate_sample_data.py
 Output: model terlatih (.keras) dan scaler (.pkl)
 """
 
@@ -25,7 +24,7 @@ def load_and_preprocess_data(csv_path):
     """Load CSV dan preprocess data untuk training"""
     
     print("[INFO] Loading dataset...")
-    df = pd.read_csv('data/food_waste_dataset.csv')
+    df = pd.read_csv('prototype/data/food_waste_dataset.csv')
     print(f"[INFO] Loaded {len(df)} records")
     
     # Categorical columns to encode
@@ -151,7 +150,7 @@ def train_model(X, y, epochs=250, batch_size=32):
             verbose=1
         ),
         ModelCheckpoint(
-            'food_waste_model_best.keras',
+            'food_waste_model_best2.keras',
             monitor='val_loss',
             save_best_only=True,
             verbose=1
@@ -193,8 +192,8 @@ def train_model(X, y, epochs=250, batch_size=32):
     print(f"R-squared Score: {r2_score:.4f}")
     
     # Mean Absolute Percentage Error
-    mape = np.mean(np.abs((y_test - y_pred) / (y_test + 1e-8))) * 100
-    print(f"MAPE: {mape:.2f}%")
+    # mape = np.mean(np.abs((y_test - y_pred) / (y_test + 1e-8))) * 100
+    # print(f"MAPE: {mape:.2f}%")
     
     # Accuracy within tolerance
     tolerance = 0.05  # 5% tolerance
@@ -209,7 +208,7 @@ def save_artifacts(model, scaler, label_encoders, feature_cols):
     """Save model and preprocessing artifacts"""
     
     # Save model
-    model.save('food_waste_model.keras')
+    model.save('food_waste_model2.keras')
     print("\n[SAVED] Model saved to: food_waste_model.keras")
     
     # Save scaler and encoders
@@ -219,7 +218,7 @@ def save_artifacts(model, scaler, label_encoders, feature_cols):
         'feature_cols': feature_cols
     }
     
-    with open('model_artifacts.pkl', 'wb') as f:
+    with open('model_artifacts2.pkl', 'wb') as f:
         pickle.dump(artifacts, f)
     print("[SAVED] Artifacts saved to: model_artifacts.pkl")
 
@@ -230,7 +229,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # Load and preprocess data
-    csv_path = "food_waste_dataset.csv"
+    csv_path = "protoype/data/food_waste_dataset.csv"
     X, y, scaler, label_encoders, feature_cols = load_and_preprocess_data(csv_path)
     
     # Train model
@@ -251,4 +250,3 @@ if __name__ == "__main__":
     print("  1. food_waste_model.keras - Trained Keras model")
     print("  2. food_waste_model_best.keras - Best model checkpoint")
     print("  3. model_artifacts.pkl - Scaler and label encoders")
-    print("\nNext step: Run backend_inference.py for predictions")

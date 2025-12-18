@@ -24,7 +24,7 @@ def load_and_preprocess_data(csv_path):
     """Load CSV dan preprocess data untuk training"""
     
     print("[INFO] Loading dataset...")
-    df = pd.read_csv('prototype/data/food_waste_dataset.csv')
+    df = pd.read_csv('prototype/data/food_waste_dataset2.csv')
     print(f"[INFO] Loaded {len(df)} records")
     
     # Categorical columns to encode
@@ -196,10 +196,11 @@ def train_model(X, y, epochs=250, batch_size=32):
     # print(f"MAPE: {mape:.2f}%")
     
     # Accuracy within tolerance
-    tolerance = 0.05  # 5% tolerance
+    tolerance = 0.05 # 5% tolerance
     accurate_preds = np.sum(np.abs(y_test - y_pred) <= tolerance)
     accuracy = accurate_preds / len(y_test) * 100
     print(f"Accuracy (within {tolerance*100}% tolerance): {accuracy:.2f}%")
+    model.evaluate(X_test,y_test)
     
     return model, history, (X_test, y_test)
 
@@ -229,7 +230,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # Load and preprocess data
-    csv_path = "protoype/data/food_waste_dataset.csv"
+    csv_path = "protoype/data/food_waste_dataset2.csv"
     X, y, scaler, label_encoders, feature_cols = load_and_preprocess_data(csv_path)
     
     # Train model

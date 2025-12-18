@@ -169,7 +169,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # Generate data
-    df = generate_food_waste_data(500)
+    df = generate_food_waste_data(1000)
     
     # Save to CSV
     csv_path = "food_waste_dataset2.csv"

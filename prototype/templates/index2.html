@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Food Waste Prediction - Spoilage Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #d62828;
+            --secondary-color: #f77f00;
+            --accent-color: #fcbf49;
+            --success-color: #06a77d;
+            --bg-light: #fef9f6;
+            --text-dark: #2b2d42;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #fff5eb 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-dark);
+        }
+        
+        .navbar {
+            background: var(--primary-color) !important;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .upload-zone {
+            border: 3px dashed var(--accent-color);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            background: rgba(252, 191, 73, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--primary-color);
+            background: rgba(214, 40, 40, 0.1);
+        }
+        
+        .upload-zone i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .result-card {
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .risk-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        
+        .risk-RENDAH { background: #d4edda; color: #155724; }
+        .risk-SEDANG { background: #fff3cd; color: #856404; }
+        .risk-TINGGI { background: #f8d7da; color: #721c24; }
+        .risk-KRITIS { background: #721c24; color: white; }
+        
+        .priority-TINGGI, .priority-KRITIS { color: #dc3545; }
+        .priority-SEDANG { color: #ffc107; }
+        .priority-RENDAH { color: #28a745; }
+        
+        .summary-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+        
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .instruction-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .column-table {
+            font-size: 0.875rem;
+        }
+        
+        .column-table th {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        #loading {
+            display: none;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        
+        .rekomendasi-item {
+            border-left: 4px solid;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .rekomendasi-TINGGI, .rekomendasi-KRITIS { border-color: #dc3545; }
+        .rekomendasi-SEDANG { border-color: #ffc107; }
+        .rekomendasi-RENDAH { border-color: #28a745; }
+        
+        .waste-metric {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(214, 40, 40, 0.1) 0%, rgba(247, 127, 0, 0.1) 100%);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        
+        .waste-metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .waste-metric-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Waste Analyzer
+            </span>
+            <span class="text-white-50">Smart Food Waste & Spoilage Prediction</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">Smart Food Waste Prediction</h1>
+            <p class="lead mb-0">
+                Prediksi spoilage otomatis menggunakan machine learning.<br>
+                Tingkatkan efisiensi inventory dan kurangi kerugian karena expired/rusak.
+            </p>
+        </div>
+    </section>
+
+    <div class="container pb-5">
+        <div class="row g-4">
+            <!-- Upload Section -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="mb-0"><i class="bi bi-cloud-upload me-2"></i>Upload Waste Dataset</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="upload-zone" id="uploadZone">
+                            <i class="bi bi-file-earmark-spreadsheet mb-3"></i>
+                            <h5>Drag & Drop file CSV di sini</h5>
+                            <p class="text-muted mb-3">atau klik untuk memilih file</p>
+                            <input type="file" id="fileInput" accept=".csv" class="d-none">
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                <i class="bi bi-folder2-open me-2"></i>Pilih File
+                            </button>
+                        </div>
+                        <div id="fileInfo" class="mt-3 d-none">
+                            <div class="alert alert-info d-flex align-items-center">
+                                <i class="bi bi-file-earmark-check me-2"></i>
+                                <span id="fileName"></span>
+                                <button class="btn btn-sm btn-outline-danger ms-auto" onclick="clearFile()">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="uploadFile()">
+                                <i class="bi bi-cpu me-2"></i>Prediksi Spoilage & Analyze Waste
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions Section -->
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Format Dataset</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="instruction-box mb-3">
+                            <p class="mb-2"><strong>File CSV harus memiliki kolom wajib:</strong></p>
+                            <div class="table-responsive">
+                                <table class="table table-sm column-table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Kolom</th>
+                                            <th>Tipe</th>
+                                            <th>Contoh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>ItemName</td><td>Text</td><td>Bingo Mad Angles</td></tr>
+                                        <tr><td>Category</td><td>Text</td><td>Snacks</td></tr>
+                                        <tr><td>Brand</td><td>Text</td><td>ITC</td></tr>
+                                        <tr><td>StoreLocation</td><td>Text</td><td>Chennai</td></tr>
+                                        <tr><td>StockQty</td><td>Number</td><td>92</td></tr>
+                                        <tr><td>DaysUntilExpiry</td><td>Decimal</td><td>0.5</td></tr>
+                                        <tr><td>DailySaleAvg</td><td>Decimal</td><td>12.1</td></tr>
+                                        <tr><td>DistanceToNearestStore</td><td>Decimal</td><td>5.2</td></tr>
+                                        <tr><td>AvgDailySaleInNearbyStores</td><td>Decimal</td><td>8.5</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary w-100" onclick="showTemplateModal()">
+                            <i class="bi bi-download me-2"></i>Lihat Detail Kolom
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-3 text-muted">Prediksi spoilage dan menganalisis waste...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-4 d-none">
+            <!-- Summary Cards -->
+            <div class="row g-3 mb-4" id="summaryCards"></div>
+
+            <!-- Waste Metrics -->
+            <div class="row g-3 mb-4" id="wasteMetrics"></div>
+
+            <!-- Risk Distribution -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-white border-0 pt-4">
+                            <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Distribusi Risk Level</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="riskDistribution" class="row g-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Analysis -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-white border-0 pt-4">
+                            <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Detail Analisis Per Produk</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="productsList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Modal -->
+    <div class="modal fade" id="templateModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Format Dataset</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="templateContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+
+        let selectedFile = null;
+
+        // Drag and drop
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', () => {
+            handleFiles(fileInput.files);
+        });
+
+        uploadZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                selectedFile = files[0];
+                fileName.textContent = selectedFile.name;
+                fileInfo.classList.remove('d-none');
+            }
+        }
+
+        function clearFile() {
+            selectedFile = null;
+            fileInput.value = '';
+            fileInfo.classList.add('d-none');
+        }
+
+        async function uploadFile() {
+            if (!selectedFile) return;
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            loading.style.display = 'block';
+            results.classList.add('d-none');
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResults(data);
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error uploading file');
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function displayResults(data) {
+            const totalProducts = data.total_products;
+            const analysis = data.hasil_analisis;
+            const summary = data.ringkasan;
+
+            // Summary Cards
+            const summaryCardsHtml = `
+                <div class="col-md-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-value">${totalProducts}</div>
+                            <div class="text-white-50">Total Produk</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-value">${(summary.avg_spoilage_chance * 100).toFixed(1)}%</div>
+                            <div class="text-white-50">Avg Predicted Spoilage</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-value">${summary.avg_waste_percentage.toFixed(1)}%</div>
+                            <div class="text-white-50">Avg Waste %</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-value">${summary.already_spoiled_items}</div>
+                            <div class="text-white-50">Sudah Rusak</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('summaryCards').innerHTML = summaryCardsHtml;
+
+            // Waste Metrics
+            const wasteMetricsHtml = `
+                <div class="col-md-6">
+                    <div class="waste-metric">
+                        <div class="waste-metric-label">Potensi Waste Total</div>
+                        <div class="waste-metric-value">${summary.total_potential_waste_units.toFixed(2)} unit</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="waste-metric">
+                        <div class="waste-metric-label">Rata-rata Predicted Spoilage Chance</div>
+                        <div class="waste-metric-value">${(summary.avg_spoilage_chance * 100).toFixed(1)}%</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('wasteMetrics').innerHTML = wasteMetricsHtml;
+
+            // Risk Distribution
+            const riskDist = summary.distribusi_risiko;
+            const riskDistHtml = `
+                <div class="col-6 col-md-3">
+                    <div class="text-center">
+                        <div class="risk-badge risk-KRITIS">${riskDist.KRITIS}</div>
+                        <p class="mt-2 mb-0 small">KRITIS</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-center">
+                        <div class="risk-badge risk-TINGGI">${riskDist.TINGGI}</div>
+                        <p class="mt-2 mb-0 small">TINGGI</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-center">
+                        <div class="risk-badge risk-SEDANG">${riskDist.SEDANG}</div>
+                        <p class="mt-2 mb-0 small">SEDANG</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-center">
+                        <div class="risk-badge risk-RENDAH">${riskDist.RENDAH}</div>
+                        <p class="mt-2 mb-0 small">RENDAH</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('riskDistribution').innerHTML = riskDistHtml;
+
+            // Products List
+            let productsHtml = '';
+            analysis.forEach(product => {
+                const recHtml = product.recommendations.map(rec => `
+                    <div class="rekomendasi-item rekomendasi-${rec.prioritas}">
+                        <strong class="priority-${rec.prioritas}">${rec.prioritas}: ${rec.kategori}</strong>
+                        <p class="mb-1 mt-2">${rec.pesan}</p>
+                        <small class="text-muted">Aksi: ${rec.aksi}</small>
+                    </div>
+                `).join('');
+
+                productsHtml += `
+                    <div class="result-card card mb-3">
+                        <div class="card-header bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="mb-1"><strong>${product.nomor}. ${product.item_name}</strong></h6>
+                                    <small class="text-muted">${product.brand || 'N/A'} | ${product.category} | ${product.store_location}</small>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <span class="risk-badge risk-${product.risk_level.level}">${product.risk_level.level}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p class="mb-2"><strong>Stok:</strong> ${product.stock_qty} unit</p>
+                                    <p class="mb-2"><strong>Prediksi Spoilage:</strong> <span style="color: #d62828; font-weight: bold;">${product.spoilage_chance_pct}%</span></p>
+                                    <p class="mb-0"><strong>Days to Expiry:</strong> ${product.days_until_expiry} hari</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2"><strong>Daily Sales Avg:</strong> ${product.daily_sale_avg} unit</p>
+                                    <p class="mb-2"><strong>Potensi Waste:</strong> ${product.potential_waste} unit</p>
+                                    <p class="mb-0"><strong>Waste %:</strong> ${product.waste_percentage}%</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="rekomendasi-section">
+                                <h6 class="mb-3"><i class="bi bi-lightbulb"></i> Rekomendasi Mitigasi:</h6>
+                                ${recHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('productsList').innerHTML = productsHtml;
+
+            results.classList.remove('d-none');
+            window.scrollTo(0, 0);
+        }
+
+        async function showTemplateModal() {
+            try {
+                const response = await fetch('/template');
+                const data = await response.json();
+
+                let html = '<div class="row"><div class="col-md-6">';
+                html += '<h6 class="mb-3">Kolom Wajib:</h6><ul class="list-unstyled">';
+                data.kolom_wajib.forEach(col => {
+                    html += `<li class="mb-2"><strong>${col.nama}</strong> (${col.tipe})<br><small class="text-muted">${col.keterangan}<br>Contoh: ${col.contoh}</small></li>`;
+                });
+                html += '</ul></div><div class="col-md-6">';
+                html += '<h6 class="mb-3">Kolom Opsional:</h6><ul class="list-unstyled">';
+                data.kolom_opsional.forEach(col => {
+                    html += `<li class="mb-2"><strong>${col.nama}</strong> (${col.tipe})<br><small class="text-muted">${col.keterangan}<br>Contoh: ${col.contoh}</small></li>`;
+                });
+                html += '</ul></div></div>';
+
+                document.getElementById('templateContent').innerHTML = html;
+                new bootstrap.Modal(document.getElementById('templateModal')).show();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

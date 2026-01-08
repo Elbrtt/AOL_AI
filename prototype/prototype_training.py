@@ -229,7 +229,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # Load and preprocess data
-    csv_path = "protoype/data/food_waste_dataset2.csv"
+    csv_path = "prototype/data/food_waste_dataset2.csv"
     X, y, scaler, label_encoders, feature_cols = load_and_preprocess_data(csv_path)
     
     # Train model

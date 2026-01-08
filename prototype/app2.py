@@ -48,13 +48,19 @@ class SmartWasteAnalyzer:
     def predict_spoilage_chance(self, row):
         """Prediksi spoilage chance menggunakan model neural network"""
         if not self.is_loaded:
+            print("[ERROR] Model not loaded!")
             return None
         
         try:
+            # Convert string boolean to actual boolean
+            if 'TemperatureSensitive' in row:
+                if isinstance(row['TemperatureSensitive'], str):
+                    row['TemperatureSensitive'] = row['TemperatureSensitive'].lower() == 'true'
+            
             features_for_prediction = {}
             
             # Encode Category
-            if 'Category' in self.label_encoders and 'Category' in row:
+            if 'category' in self.label_encoders and 'Category' in row:
                 category_val = row['Category']
                 if category_val in self.label_encoders['category'].classes_:
                     features_for_prediction['category_encoded'] = self.label_encoders['category'].transform([category_val])[0]
@@ -83,6 +89,16 @@ class SmartWasteAnalyzer:
             else:
                 features_for_prediction['brand_encoded'] = 0
             
+            # Encode TemperatureSensitive - FIXED
+            if 'temperaturesensitive' in self.label_encoders and 'TemperatureSensitive' in row:
+                temp_val = row['TemperatureSensitive']
+                if temp_val in self.label_encoders['temperaturesensitive'].classes_:
+                    features_for_prediction['temp_encoded'] = self.label_encoders['temperaturesensitive'].transform([temp_val])[0]
+                else:
+                    features_for_prediction['temp_encoded'] = 0
+            else:
+                features_for_prediction['temp_encoded'] = 0
+
             # Add numerical features
             features_for_prediction['StockQty'] = float(row.get('StockQty', 0))
             features_for_prediction['DaysUntilExpiry'] = float(row.get('DaysUntilExpiry', 0))
@@ -108,7 +124,7 @@ class SmartWasteAnalyzer:
             
             return spoilage_chance
         except Exception as e:
-            print(f"[WARNING] Error predicting spoilage: {e}")
+            print(f"[ERROR] Error predicting spoilage: {e}")
             import traceback
             traceback.print_exc()
             return None
@@ -273,7 +289,7 @@ class SmartWasteAnalyzer:
             df = pd.read_csv(csv_path)
             results = []
             
-            required_cols = ['ItemName', 'Category', 'Brand', 'StoreLocation', 'StockQty', 'DaysUntilExpiry', 'DailySaleAvg', 'DistanceToNearestStore', 'AvgDailySaleInNearbyStores']
+            required_cols = ['ItemName', 'Category', 'Brand', 'StoreLocation', 'StockQty', 'DaysUntilExpiry', 'DailySaleAvg', 'DistanceToNearestStore', 'AvgDailySaleInNearbyStores','TemperatureSensitive']
             
             # Check which required columns exist
             missing = [col for col in required_cols if col not in df.columns]
@@ -368,13 +384,13 @@ def template_info():
             {'nama': 'Brand', 'tipe': 'text', 'contoh': 'ITC', 'keterangan': 'Brand produk'},
             {'nama': 'StoreLocation', 'tipe': 'text', 'contoh': 'Chennai', 'keterangan': 'Lokasi toko'},
             {'nama': 'DistanceToNearestStore', 'tipe': 'decimal', 'contoh': '5.2', 'keterangan': 'Jarak ke toko terdekat'},
-            {'nama': 'AvgDailySaleInNearbyStores', 'tipe': 'decimal', 'contoh': '10.3', 'keterangan': 'Rata-rata penjualan harian di toko terdekat'}
+            {'nama': 'AvgDailySaleInNearbyStores', 'tipe': 'decimal', 'contoh': '10.3', 'keterangan': 'Rata-rata penjualan harian di toko terdekat'},
+            {'nama': 'TemperatureSensitive', 'tipe': 'boolean', 'contoh': 'False', 'keterangan': 'Sensitif terhadap suhu'}
         ],
         'kolom_opsional': [
             {'nama': 'StoreID', 'tipe': 'text', 'contoh': 'Chennai_0', 'keterangan': 'ID toko unik'},
             {'nama': 'IsSpoiled', 'tipe': 'boolean', 'contoh': 'False', 'keterangan': 'Apakah produk sudah rusak'},
-            {'nama': 'OnPromotion', 'tipe': 'text', 'contoh': 'No', 'keterangan': 'Apakah sedang promo'},
-            {'nama': 'TemperatureSensitive', 'tipe': 'boolean', 'contoh': 'False', 'keterangan': 'Sensitif terhadap suhu'},
+            {'nama': 'OnPromotion', 'tipe': 'text', 'contoh': 'No', 'keterangan': 'Apakah sedang promo'}
         ]
     }
     return jsonify(template_info)

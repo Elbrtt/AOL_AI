@@ -69,7 +69,7 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
         le = LabelEncoder()
         df['temp_encoded'] = le.fit_transform(df['TemperatureSensitive'])
         label_encoders['temperaturesensitive'] = le
-        print(f"[INFO] Encoded brand: {len(le.classes_)}categories")
+        print(f"[INFO] Encoded temperaturesensitive: {len(le.classes_)}categories")
     
     feature_cols = [
         'category_encoded',

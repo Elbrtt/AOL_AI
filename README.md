@@ -7,16 +7,19 @@ Projek ini menggunakan machine learning dalam memprediksi kemungkinan kerusakan 
 yang akan digunakan untuk menghitung potensial berapa banyak unit makanan yang terbuang.
 
 Apa yang di prediksi AI?
-- Spoilage Chance
-  ==> Kolom yang digunakan dari dataset: category_encode', store_location_encoded, brand_encoded, StockQty, DaysUntilExpiry,
+- **Spoilage Chance**
+  - Kolom yang digunakan dari dataset:
+    > category_encode', store_location_encoded, brand_encoded, StockQty, DaysUntilExpiry,
                                           DailySaleAvg, DistanceToNearestStore, AvgDailySaleInNearbyStores, temp_encoded
 
 Fitur yang di hard-coded:
-1. Rekomendasi ==> a. berdasarkan spoilage chance, b. berdasarkan DaysUntilExpiry
-2. Kalkulasi
-   [*] potensial waste = unsold * spoilage chance
-   [*] unsold = stock_qty - daily sales * days till expiry
-   [*] waste percentage (%) = potensi waste / stok * 100
+1. Rekomendasi
+   - berdasarkan spoilage chance
+   - berdasarkan DaysUntilExpiry
+3. Kalkulasi
+   - potensial waste = unsold * spoilage chance
+   - unsold = stock_qty - daily sales * days till expiry
+   - waste percentage (%) = potensi waste / stok * 100
 
 PROSEDUR
 1. Download Requirements.txt  dan jalankan enviroment

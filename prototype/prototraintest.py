@@ -195,14 +195,14 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     )
     
     # Evaluate model pada semua data (training metrics)
-    print("\n" + "=" * 50)
-    print("MODEL TRAINING RESULTS")
-    print("=" * 50)
+    # print("\n" + "=" * 50)
+    # print("MODEL TRAINING RESULTS")
+    # print("=" * 50)
     
     train_loss, train_mae, train_mse = model.evaluate(X_scaled, y, verbose=0)
-    print(f"Training Loss (MSE): {train_loss:.6f}")
-    print(f"Training MAE: {train_mae:.6f}")
-    print(f"Training RMSE: {np.sqrt(train_mse):.6f}")
+    # print(f"Training Loss (MSE): {train_loss:.6f}")
+    # print(f"Training MAE: {train_mae:.6f}")
+    # print(f"Training RMSE: {np.sqrt(train_mse):.6f}")
     
     # Predictions analysis pada semua data
     y_pred = model.predict(X_scaled, verbose=0).flatten()
@@ -211,15 +211,13 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     ss_res = np.sum((y - y_pred) ** 2)
     ss_tot = np.sum((y - np.mean(y)) ** 2)
     r2_score = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
-    print(f"Training R-squared Score: {r2_score:.4f}")
+    # print(f"Training R-squared Score: {r2_score:.4f}")
     
     # Calculate MAPE (avoid division by zero)
     mask = y != 0
     if np.sum(mask) > 0:
         mape = np.mean(np.abs((y[mask] - y_pred[mask]) / y[mask])) * 100
-        print(f"Training MAPE: {mape:.2f}%")
     else:
-        print("Training MAPE: Cannot calculate (all y are zero)")
         mape = None
     
     # Additional metrics
@@ -229,14 +227,14 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     rmse = np.sqrt(mse)
     mae = mean_absolute_error(y, y_pred)
     
-    print(f"\n[INFO] Additional Training Metrics:")
-    print(f"  MSE: {mse:.6f}")
-    print(f"  RMSE: {rmse:.6f}")
-    print(f"  MAE: {mae:.6f}")
+    # print(f"\n[INFO] Additional Training Metrics:")
+    # print(f"  MSE: {mse:.6f}")
+    # print(f"  RMSE: {rmse:.6f}")
+    # print(f"  MAE: {mae:.6f}")
     
     # Calculate correlation
     correlation = np.corrcoef(y, y_pred)[0, 1]
-    print(f"  Correlation (Actual vs Predicted): {correlation:.4f}")
+    # print(f"  Correlation (Actual vs Predicted): {correlation:.4f}")
     
     # Save artifacts
     os.makedirs('prototype/proto_model', exist_ok=True)

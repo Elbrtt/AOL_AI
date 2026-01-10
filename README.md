@@ -27,3 +27,5 @@ PROSEDUR
 3. Masukkan file CSV sesuai dengan format yang ditentukan
 
 *Folder Upload digunakan untuk memastikan file yang ingin diupload ke dalam projek untuk dianalisis
+
+*Dataset Source : https://www.kaggle.com/datasets/wildlearner/smart-waste-inventory-dataset

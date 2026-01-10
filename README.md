@@ -14,9 +14,9 @@ Apa yang di prediksi AI?
 Fitur yang di hard-coded:
 1. Rekomendasi ==> a. berdasarkan spoilage chance, b. berdasarkan DaysUntilExpiry
 2. Kalkulasi
-   * potensial waste == unsold * spoilage chance
-   unsold = stock_qty - daily sales * days till expiry
-   * waste percentage (%) = potensi waste / stok * 100
+   [*] potensial waste == unsold * spoilage chance
+   * unsold = stock_qty - daily sales * days till expiry
+   [*] waste percentage (%) = potensi waste / stok * 100
 
 PROSEDUR
 1. Download Requirements.txt  dan jalankan enviroment

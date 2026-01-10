@@ -1,4 +1,4 @@
-PROJEK AOL AI 
+==== Fresh Guard (Most Viable Product) ====
 - Aurelius Elbert 2802391555
 - Brandon Maximillian 2802418512
 - Jordhy Alexander 2802389216
@@ -25,3 +25,5 @@ PROSEDUR
 1. Download Requirements.txt  dan jalankan enviroment
 2. Jalankan AppTest.py kemudian click link localHost 5000 dari output program
 3. Masukkan file CSV sesuai dengan format yang ditentukan
+
+*Folder Upload digunakan untuk memastikan file yang ingin diupload ke dalam projek untuk dianalisis

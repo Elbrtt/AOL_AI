@@ -1,4 +1,4 @@
-==== FOOD WASTE ANALYZER (Most Viable Product) ====
+==== Fresh Guard (Most Viable Product) ====
 - Aurelius Elbert 2802391555
 - Brandon Maximillian 2802418512
 - Jordhy Alexander 2802389216

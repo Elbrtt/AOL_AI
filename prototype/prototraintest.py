@@ -194,15 +194,7 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
         callbacks=callbacks
     )
     
-    # Evaluate model pada semua data (training metrics)
-    # print("\n" + "=" * 50)
-    # print("MODEL TRAINING RESULTS")
-    # print("=" * 50)
-    
     train_loss, train_mae, train_mse = model.evaluate(X_scaled, y, verbose=0)
-    # print(f"Training Loss (MSE): {train_loss:.6f}")
-    # print(f"Training MAE: {train_mae:.6f}")
-    # print(f"Training RMSE: {np.sqrt(train_mse):.6f}")
     
     # Predictions analysis pada semua data
     y_pred = model.predict(X_scaled, verbose=0).flatten()
@@ -211,8 +203,7 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     ss_res = np.sum((y - y_pred) ** 2)
     ss_tot = np.sum((y - np.mean(y)) ** 2)
     r2_score = 1 - (ss_res / ss_tot) if ss_tot != 0 else 0
-    # print(f"Training R-squared Score: {r2_score:.4f}")
-    
+ 
     # Calculate MAPE (avoid division by zero)
     mask = y != 0
     if np.sum(mask) > 0:

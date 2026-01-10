@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder 
 import pickle
 import os
 from tensorflow import keras
@@ -80,7 +80,6 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
         'temp_encoded'
     ]
     
-    # Check available columns and filter feature_cols
     available_cols = [col for col in feature_cols if col in df.columns]
     missing_cols = [col for col in feature_cols if col not in df.columns]
     
@@ -91,10 +90,8 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     print(f"[INFO] Features to use: {feature_cols}")
     
     try:
-        # Prepare features and target
         X = df[feature_cols].fillna(0).values
         
-        # Target: SpoilageChance (0-1 scale) - what the model will predict
         if 'SpoilageChance' not in df.columns:
             print("[ERROR] Kolom target 'SpoilageChance' tidak ditemukan dalam dataset")
             print(f"[INFO] Kolom yang tersedia: {df.columns.tolist()}")

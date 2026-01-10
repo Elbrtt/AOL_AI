@@ -84,7 +84,7 @@ class SmartWasteAnalyzer:
             else:
                 features_for_prediction['brand_encoded'] = 0
             
-            # Encode TemperatureSensitive - SIMPLIFIED
+            # Encode TemperatureSensitive
             if 'temperaturesensitive' in self.label_encoders and 'TemperatureSensitive' in row:
                 temp_val = bool(row['TemperatureSensitive'])
                 if temp_val in self.label_encoders['temperaturesensitive'].classes_:
@@ -230,7 +230,6 @@ class SmartWasteAnalyzer:
             
             predicted_spoilage_chance = self.predict_spoilage_chance(row)
             if predicted_spoilage_chance is None:
-                # Jika model gagal, return error
                 return {'error': 'Model prediction failed'}
             
             # Hitung metrics

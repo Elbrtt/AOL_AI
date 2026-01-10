@@ -1,9 +1,3 @@
-"""
-Script untuk training waste prediction model dari smart waste dataset
-Tanpa split testing - menggunakan semua data untuk training
-Menggunakan data actual dari enhanced_smart_waste_dataset_v1.csv
-"""
-
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
@@ -17,9 +11,7 @@ from tensorflow.keras.regularizers import l2
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
 
-def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset_v1.csv'):
-    """Create model artifacts from actual waste dataset menggunakan semua data untuk training"""
-    
+def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset_v1.csv'):  
     print("[INFO] Loading smart waste dataset...")
     
     if os.path.exists(csv_path):
@@ -163,7 +155,6 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     model.summary()
     print("=" * 50)
     
-    # Add callbacks for better training
     callbacks = [
         EarlyStopping(
             monitor='loss',
@@ -190,7 +181,7 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
         epochs=300, 
         batch_size=16, 
         verbose=1, 
-        validation_split=0.1,  # Validation split untuk monitoring
+        validation_split=0.1,
         callbacks=callbacks
     )
     
@@ -217,11 +208,6 @@ def create_model_artifacts(csv_path='prototype/data/enhanced_smart_waste_dataset
     mse = mean_squared_error(y, y_pred)
     rmse = np.sqrt(mse)
     mae = mean_absolute_error(y, y_pred)
-    
-    # print(f"\n[INFO] Additional Training Metrics:")
-    # print(f"  MSE: {mse:.6f}")
-    # print(f"  RMSE: {rmse:.6f}")
-    # print(f"  MAE: {mae:.6f}")
     
     # Calculate correlation
     correlation = np.corrcoef(y, y_pred)[0, 1]
